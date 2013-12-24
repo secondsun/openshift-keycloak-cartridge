@@ -82,6 +82,8 @@ Endpoints:
     Mappings:
     - Frontend: ''
       Backend: ''
+      Options:
+        websocket: true
     - Frontend: /health
       Backend: ''
       Options:
