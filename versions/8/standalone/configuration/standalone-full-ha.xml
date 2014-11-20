@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <server xmlns="urn:jboss:domain:2.1">
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
@@ -70,6 +69,9 @@
             <http-interface security-realm="ManagementRealm" http-upgrade-enabled="true">
                 <socket-binding http="management-http"/>
             </http-interface>
+            <native-interface security-realm="ManagementRealm">
+                <socket-binding native="management-native"/>
+            </native-interface>
         </management-interfaces>
         <access-control provider="simple">
             <role-mapping>
@@ -484,6 +486,11 @@
                         <login-module code="org.keycloak.adapters.jboss.KeycloakLoginModule" flag="required"/>
                     </authentication>
                 </security-domain>
+                <security-domain name="sp" cache-type="default">
+                    <authentication>
+                        <login-module code="org.picketlink.identity.federation.bindings.wildfly.SAML2LoginModule" flag="required"/>
+                    </authentication>
+                </security-domain>
             </security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:transactions:2.0">
@@ -565,5 +572,6 @@
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
+        <socket-binding name="management-native" interface="management" port="9999"/>
     </socket-binding-group>
 </server>
